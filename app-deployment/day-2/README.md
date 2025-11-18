@@ -15,6 +15,15 @@ scp -i ~/.ssh/se-matt-key-pair.pem nodejs20-se-test-app-2025.zip ubuntu@ec2-108-
 
 ## App deployment manual steps
 
+Before you run these commands you must:
+
+- Create an EC2 instance
+  - It must have an SG that has ports 22, 80 and 3000 open
+- Copy the app code as a zip to your EC2 instance, using SCP
+  - example: `scp -i ~/.ssh/se-luke-key-pair.pem "nodejs20-se-test-app-2025.zip" ubuntu@34.244.245.244:~`
+
+If the above has been done, follow the following guide:
+
 1. `sudo apt update -y`
    - This downloads newest versions of packages
 2. `sudo apt upgrade -y`
@@ -35,3 +44,8 @@ scp -i ~/.ssh/se-matt-key-pair.pem nodejs20-se-test-app-2025.zip ubuntu@ec2-108-
 8. `cd ~/nodejs20-se-test-app-2025/app`
 9. `sudo npm install`
    - Installs npm libraries needed for app to run
+10. `npm start app.js`
+    - Starts app, runs in foreground
+    - Thus will take away terminal access
+11. Check your public IP address to see if Sparta app is working
+    - e.g. `http://3.134.41.67:3000`
