@@ -55,12 +55,13 @@ On DB server:
 
 On app server:
 
-18. `export DB_HOST=mongodb://DBIPADDRESS:27017/posts` (not persistent, how to correct?)
-19. Check with `printenv DB_HOST`
-20. `pm2 kill`
-21. `sudo npm install` (just in case)
-22. `node seeds/seed.js`
-23. `pm2 start app.js`
-24. Check in browser at `http://APPIPADDRESS/posts`
-
-Environment variable made persistent by adding to `/etc/environ` (`sudo nano` then `source` to get immediately)
+18. `sudo nano .bashrc`
+19. Add line `export DB_HOST=mongodb://DBIPADDRESS:27017/posts`
+20. `source .bashrc`
+21. Check with `printenv DB_HOST`
+22. `pm2 kill`
+23. `sudo npm install` (just in case)
+24. `cd se-sparta-test-app/app`
+25. `node seeds/seed.js`
+26. `pm2 start app.js`
+27. Check in browser at `http://APPIPADDRESS/posts`
