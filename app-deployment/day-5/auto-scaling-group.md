@@ -1,5 +1,7 @@
 # Auto Scaling Group Creation
 
+![Autoscaling](autoscaling.png)
+
 ## Prerequisites:
 
 Instance -> AMI -> Launch template

@@ -19,6 +19,8 @@
 
 ## MongoDB
 
+To deploy a MongoDB database instance on AWS EC2:
+
 - Name: se-matt-mongodb
 - AMI: Ubuntu Server 24.04 LTS
 - Instance type: t3.micro

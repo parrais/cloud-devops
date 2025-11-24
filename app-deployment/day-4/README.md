@@ -8,12 +8,15 @@ Can run a script with
 
 ## Images
 
-Actions > Image and templates > Create image
+Create an image from an existing EC2 instance, to be used to create further identical instances:
+
+- Actions > Image and templates > Create image
 
 (Once created)
-Create instance
-Name: se-matt-mongodb-from-image
-AMI: se-matt-mongodb-image
+
+- Create instance
+  - Name: se-matt-mongodb-from-image
+  - AMI: se-matt-mongodb-image
 
 ## Monitoring
 
@@ -34,4 +37,4 @@ In CloudWatch:
 - EC2 Per-Instance Metrics > CPUUtilization
 - Custom time frame (3 mins)
 - Create widget
-- Add widget for NetworkIn and NetworkOut
+- Add second widget for NetworkIn and NetworkOut
