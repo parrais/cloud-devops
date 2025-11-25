@@ -50,7 +50,10 @@
 
 ## Gateways
 
+A gateway is a piece of networking hardware or software that allows data to flow from one discrete network to another.
+
 [Article](https://medium.com/awesome-cloud/aws-vpc-difference-between-internet-gateway-and-nat-gateway-c9177e710af6)
+
 ![IGW vs NGW](https://miro.medium.com/v2/resize:fit:4800/format:webp/1*gftv4LSqU_12kRqNwYISJw.png)
 
 - **NAT Gateways vs Internet Gateways**
