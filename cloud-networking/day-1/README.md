@@ -24,10 +24,13 @@
   - IPv4 has a 32-bit address space from 0.0.0.0 to 255.255.255.255.
   - IPv6 has a 128-bit address space.
 - **CIDR blocks**
-  - **[Classless Inter-Domain Routing](https://aws.amazon.com/what-is/cidr/)** is an IP address allocation method. 'Slash notation' includes an address in the network, followed by a slash then the 'network prefix' which is the number of bits (out of 32 total available) in the network.
+  - **[Classless Inter-Domain Routing](https://aws.amazon.com/what-is/cidr/)** is an IP address allocation method. 'Slash notation' includes an address in the network, followed by a slash, then the 'network prefix' which is the number of bits (out of 32 total available) outside the network.
 - **Subnet masks**
+
   - 1 for each bit of network prefix, 0 for each bit in scope of network, rendered as a decimal IPv4 address.
+
     ![IPv4 CIDR Chart](https://www.ripe.net/media/images/IPv4CIDRChart_2015.width-800.jpg)
+
 - **Reserved IP ranges**
   - Some IP address ranges are reserved for specific purposes, e.g.
     - Private networks (10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255)
