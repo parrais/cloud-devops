@@ -78,7 +78,9 @@
 - Resource map
   ![Basic VPC resource map](vpc-resource-map.png)
 
-## Deploy DB instance
+## Deploy instances
+
+### Database
 
 - EC2 > Instances > Launch instances
 - Launch an instance:
@@ -102,7 +104,7 @@
 
 (No public IP, private IP in 10.3.x.x)
 
-## Deploy app instance
+### Application
 
 - EC2 > Instances > Launch instances
 - Launch an instance:
@@ -126,7 +128,7 @@
 
 ## Deletion
 
-If you already have a VPC, delete all components in the order below:
+Delete all components in the order below:
 
 1. Terminate instances inside the VPC
 2. Delete the Security Groups you made in the VPC
