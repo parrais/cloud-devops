@@ -51,3 +51,39 @@ Many, including PWC, Vodafone, and HSBC.
 ### Terraform connection/communication with AWS
 
 [**Terraform documentation**](https://developer.hashicorp.com/terraform/tutorials/aws-get-started)
+
+## Using Terraform
+
+### AWS CLI Setup
+
+❗The AWS Access Key ID and Secret Access Key must not be shared!
+
+After the `awscli` package is installed:
+
+- Run `aws configure`
+- Enter the AWS Access Key ID.
+- Enter the AWS Secret Access Key.
+- Enter `eu-west-1` as the region name.
+- Enter `json` as the output format.
+
+Check that the files `~/.aws/credentials` and `~/.aws/config` exist, and run the command `aws sts get-caller-identity` which should give a valid response.
+
+### Terraform
+
+With the 'terraform' package installed:
+
+- The `terraform plan` command creates an execution plan, which lets you preview the changes that Terraform plans to make to your infrastructure.
+- The `terraform apply` command executes the operations proposed in a Terraform plan.
+- The `terraform destroy` command deprovisions all objects managed by a Terraform configuration.
+
+#### State
+
+**Terraform state is a snapshot of infrastructure managed by Terraform.** It records resource attributes, metadata, and dependencies so Terraform can track real-world resources and detect changes. This state file (typically `terraform.tfstate`) allows Terraform to plan updates accurately and avoid recreating resources unnecessarily.
+
+It is not a good idea to store the state file in source control (e.g. GitHub). This is because **Terraform state files contain all data in plain text, which may contain secrets** (e.g. API keys, passwords, and database connection strings). Storing secrets anywhere other than a secure location is never a good idea and definitely should not be put into source control.
+
+**Always use remote state** – it goes without saying that the local state is planning to fail, especially when working inside a team. With remote state and locking mechanisms in place, you ensure that collaboration can be implemented and there won’t be any race conditions happening.
+
+#### Secrets
+
+❗Include `.terraform`, `terraform.tfstate`, `terraform.tfstate.backup`, and `.terraform.lock.hcl` in the `.gitignore` file.
