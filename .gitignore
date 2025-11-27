@@ -2,3 +2,4 @@
 **/terraform.tfstate.backup
 **/.terraform.lock.hcl
 **/.terraform
+cloud-networking/day-4/terraform/deploy-github-repo/variables.tf

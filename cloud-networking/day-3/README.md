@@ -70,7 +70,7 @@ Check that the files `~/.aws/credentials` and `~/.aws/config` exist, and run the
 
 ### Terraform
 
-With the 'terraform' package installed:
+With the `terraform` package installed and a `.tf` file created:
 
 - The `terraform plan` command creates an execution plan, which lets you preview the changes that Terraform plans to make to your infrastructure.
 - The `terraform apply` command executes the operations proposed in a Terraform plan.
