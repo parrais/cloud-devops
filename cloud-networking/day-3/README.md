@@ -87,3 +87,7 @@ It is not a good idea to store the state file in source control (e.g. GitHub). T
 #### Secrets
 
 ❗Include `.terraform`, `terraform.tfstate`, `terraform.tfstate.backup`, and `.terraform.lock.hcl` in the `.gitignore` file.
+
+#### Further notes
+
+- Run `terraform fmt` to format the Terraform files.
