@@ -114,7 +114,7 @@
   - Key pair: Search for 'se-matt-key-pair'
   - Network settings > Edit
     - VPC: Search for 'se-matt-2tier-vpc'
-    - Subnet: se-matt-private-subnet
+    - Subnet: se-matt-public-subnet
     - Auto-assign public IP: Enable
     - Firewall (security groups): Create security group
     - Security group name: se-matt-node20-public-subnet-sg

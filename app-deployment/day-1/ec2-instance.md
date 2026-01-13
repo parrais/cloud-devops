@@ -13,6 +13,7 @@ Ubuntu Linux is used as it is:
 2. EC2 > Key pairs > Create key pair (If not done before)
    - Set name, RSA, .pem
    - Move .pem file to ~/.ssh
+   - `chmod 400 ~/.ssh/se-matt-key-pair.pem`
 3. EC2 > Instances > Launch instances
    - Set name
    - AMI = Ubuntu 24.04
