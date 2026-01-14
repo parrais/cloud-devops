@@ -13,6 +13,10 @@
 - **What are the core components?**
   - Subnets, VLAN, VPN.
 
+### Diagram (AWS as apartment building)
+
+![AWS VPC Diagram](../day-2/vpc-concept-example.png)
+
 ## IP addresses
 
 [AWS Docs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html)
