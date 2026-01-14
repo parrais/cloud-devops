@@ -1,5 +1,9 @@
 # Creating a VPC
 
+## Diagram
+
+![AWS VPC Diagram](example-vpc-diagram.png)
+
 ## VPC
 
 - AWS Console > VPC Dashboard > Create VPC
