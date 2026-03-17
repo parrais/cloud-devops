@@ -143,3 +143,29 @@
   ps aux | grep "python" | grep -v "grep" > process_log.txt
   ```
   (Lists every program currently running, filters to only show lines containing `python`, filters out the line for `grep` itself, and outputs to `process_log.txt`)
+
+## Streams
+
+- In Linux, a stream is a continuous flow of data between a program and its environment (like your keyboard, the screen, or a file).
+- The three data streams are:
+  - **Standard Input (stdin / 0):** The flow of data into the program (usually from your keyboard).
+  - **Standard Output (stdout / 1):** The flow of data out of the program (usually to your screen).
+  - **Standard Error (stderr / 2):** A separate flow for error messages so they don't get mixed up with the regular data.
+- For example, if `new.txt` exists and `missing_directory` does not, running:
+  ```bash
+  ls missing_directory new.txt
+  ```
+  will send `new.txt` to stdout (as the file exists) and `ls: cannot access 'missing_directory': No such file or directory` to stderr.
+- To send each output to separate files, run:
+  ```bash
+  ls missing_directory new.txt > output.txt 2> error.txt
+  ```
+- To capture both streams in a single file, run:
+  ```bash
+  ls missing_directory new.txt &> output.txt
+  ```
+  or this older alternative:
+  ```bash
+  ls missing_directory new.txt > output.txt 2>&1
+  ```
+- By default, only Standard Output (stdout) is directed to a file when you use the `>` or `>>` operators.
