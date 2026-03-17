@@ -65,7 +65,7 @@ Cloud Computing = Computing resources accessed over the internet on demand.
   - Write a function and set up triggers
   - When the trigger hits the cloud provider runs the function for you
 
-![On-Prem/IaaS/PaaS/SaaS](cloud-service-types.jpg)
+![On-Prem/IaaS/PaaS/SaaS](images/cloud-service-types.jpg)
 
 ## Advantages and disadvantages of cloud
 

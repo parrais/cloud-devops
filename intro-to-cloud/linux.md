@@ -27,7 +27,9 @@
 - Shells is like software/interface that runs the commands (aka command-line interpreter just like in older versions of Windows you had MS-DOS)
 - There are a range of shells, but the most common default shell is bash
 
-## Commands I
+## Commands
+
+### Basic
 
 - AWS/Azure VM Management
   - Start/launch instance: "start instance", "launch instance"
@@ -62,7 +64,7 @@
   - Use tab for autocompletion (instruction, not a command)
   - Use up arrow for command history navigation (instruction, not a command)
 
-## Commands II
+### File manipulation
 
 - `mv` (move/rename files)
 - `ls` (list files and folders)
@@ -78,7 +80,7 @@
 - `nano` (edit files in text editor)
 - `cat` (print file contents to screen)
 
-## Commands III
+### File info and super-user
 
 - `cat` (print file contents)
 - `head` (show top lines of a file)
@@ -102,13 +104,13 @@
 - `rm -r` (remove directory recursively)
 - `rm -rf` (remove directory recursively with force)
 
-## Commands IV
+### Updating, installing and running packages with scripts
 
 - `sudo apt update`
 - `sudo apt upgrade -y`
 - `sudo apt install nginx -y`
 - `systemctl status nginx`
-- `systemctl is-enabled nginx`
+- `systemctl is-enabled nginx` - returns an exit code of 0 if a systemd service is configured to start automatically at boot, non-zero if not
 - `sudo systemctl enable nginx`
 - `sudo systemctl restart nginx`
 - `systemctl stop nginx`
@@ -119,12 +121,57 @@
 - `./install_nginx.sh`
 - `cat install_nginx.sh`
 
-## Redirection and appending
+### Environment variables
+
+- `printenv`: Used to display all environment variables.
+- `echo`: Used to print variable values to the screen (e.g., `echo $MYNAME`).
+- `export`: Used to set environment variables (e.g., `export MYNAME=ramon`).
+- `unset`: Used to clear an environment variable.
+- `nano .bashrc`: Used to edit the `.bashrc` file.
+- Code pasted into file: `export MYNAME="Ramon is persistent"` was added to the bottom of `.bashrc` to make the environment variable persistent.
+- `source .bashrc`: Used to reload the `.bashrc` file.
+
+### Processes
+
+- `ps` show processes (including options: `ps`, `ps -A`, `ps -E`, `ps aux` (all info))
+- `top` (with sorting options: `Shift+M` for memory, `Shift+N` for newest process, `Shift+P` for CPU)
+- `htop`
+- `systemctl` (including: `systemctl status nginx`, `systemctl start nginx`, `systemctl stop nginx`, `systemctl restart nginx`, `systemctl enable nginx`, `systemctl disable nginx`)
+- `kill` (with levels: `kill -1` (hangup), `kill -15` (standard), `kill -9` (bruteforce), and default `kill`) - follow with PID
+- `sleep` (used as: `sleep 3`, `sleep 5000`, `sleep 7000`, `sleep 9000`, `sleep 30`) - add ` &` to end to run as background process
+- `jobs` (including: `jobs`, `jobs -l` (with PID))
+- `Ctrl+C`, `Ctrl+Z`, `q` (used to break out of terminal engagement)
+
+## Processes
+
+### What is process?
+
+- A program that is been loaded into RAM and currently being processed by the CPU
+- Although it looks like many processes are running concurrently (at the same time), a single-core CPU can only run one process at a time
+- Because Linux quickly switches between the running processes, it appears like they many processes are being run concurrently
+- multi-core CPUs can run/execute more than one process concurrently
+
+### Two types of processes
+
+- User processes
+- System processes
+  - most processes running are system processes
+  - they usually don't provide an application or interface for the end user to use
+  - they provide services like:
+    - a web server
+    - FTP server
+    - a file service
+    - a print service
+    - a logging service
+
+## Directing and using output
+
+### Redirection and appending
 
 - The `>` symbol is a redirection operator used to send the output of a command into a file e.g. `echo "Hello World" > greetings.txt`. It overwrites the existing content of the file.
 - The append operator `>>` works almost the same way, but it adds new output to the end of a file without deleting what is already there e.g. `echo "Hello to you" >> greetings.txt` would add an extra line to `greetings.txt`.
 
-## Piping
+### Piping
 
 - The `|` symbol can be used to 'pipe' the output from one command to be used as input by another command.
 - While redirection operators like `>` or `>>` send output to files, a pipe connects processes together.
@@ -144,7 +191,7 @@
   ```
   (Lists every program currently running, filters to only show lines containing `python`, filters out the line for `grep` itself, and outputs to `process_log.txt`)
 
-## Streams
+### Streams
 
 - In Linux, a stream is a continuous flow of data between a program and its environment (like your keyboard, the screen, or a file).
 - The three data streams are:

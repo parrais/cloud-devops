@@ -20,7 +20,7 @@ Ubuntu Linux is used as it is:
    - Instance Type = t3.micro
    - Kay pair: Reuse your key pair (search by name)
    - Reuse your SG (se-yourname-basic-sg)
-     ![Security Group inbound rules](sg-inbound-rules.png)
+     ![Security Group inbound rules](images/sg-inbound-rules.png)
 
 ## Connect to EC2 instance
 
