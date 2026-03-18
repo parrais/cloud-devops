@@ -43,7 +43,7 @@ cd nodejs2-sparta-test-app-2025
 cd app
 
 # DB connection env var
-export DB_HOST=mongodb://10.0.3.4:27017/posts
+export DB_HOST=mongodb://<db-private-ip>:27017/posts
 
 # npm install
 npm install

@@ -130,14 +130,16 @@
 - `nano .bashrc`: Used to edit the `.bashrc` file.
 - Code pasted into file: `export MYNAME="Ramon is persistent"` was added to the bottom of `.bashrc` to make the environment variable persistent.
 - `source .bashrc`: Used to reload the `.bashrc` file.
+- ❗ Make sure not to persist environment variables with sensitive data
 
 ### Processes
 
-- `ps` show processes (including options: `ps`, `ps -A`, `ps -E`, `ps aux` (all info))
+- `ps` show processes (including options: `ps` (current terminal), `ps -A` (all), `ps -E`, `ps aux` (all with more info))
 - `top` (with sorting options: `Shift+M` for memory, `Shift+N` for newest process, `Shift+P` for CPU)
 - `htop`
 - `systemctl` (including: `systemctl status nginx`, `systemctl start nginx`, `systemctl stop nginx`, `systemctl restart nginx`, `systemctl enable nginx`, `systemctl disable nginx`)
 - `kill` (with levels: `kill -1` (hangup), `kill -15` (standard), `kill -9` (bruteforce), and default `kill`) - follow with PID
+  - Use as a last resort only
 - `sleep` (used as: `sleep 3`, `sleep 5000`, `sleep 7000`, `sleep 9000`, `sleep 30`) - add ` &` to end to run as background process
 - `jobs` (including: `jobs`, `jobs -l` (with PID))
 - `Ctrl+C`, `Ctrl+Z`, `q` (used to break out of terminal engagement)

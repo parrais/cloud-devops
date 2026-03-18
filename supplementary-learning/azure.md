@@ -46,6 +46,7 @@
   - Availability zone: Zone 3
   - Security type: Standard
   - Image: Ubuntu Pro 22.04 LTS - x64 Gen2
+    - Search under 'canonical ubuntu 22.04'
   - Size: Standard_B1s
   - Username: `adminuser`
   - SSH public key source: Use existing key stored in Azure
@@ -81,7 +82,7 @@
 
 ##### App VM
 
-- [Create virtual machine](https://portal.azure.com/#create/Microsoft.VirtualMachine)
+- Create virtual machine
 - Basics
   - Resource group: tech601
   - Virtual machine name: `tech601-matt-sparta-app-vm`
@@ -125,31 +126,77 @@
 ##### Manual
 
 - Local:
-  - `scp -i ~/.ssh/tech601-matt-azure.pem nodejs20-sparta-test-app-2025.zip  adminuser@<app-public-ip>:~`
-  - `scp -i ~/.ssh/tech601-matt-azure.pem ~/.ssh/tech601-matt-azure.pem adminuser@<app-public-ip>:~/.ssh`
-  - `ssh -i ~/.ssh/tech601-matt-azure.pem adminuser@<app-public-ip>`
+  - ```bash
+    scp -i ~/.ssh/tech601-matt-azure.pem nodejs20-sparta-test-app-2025.zip  adminuser@<app-public-ip>:~
+    ```
+  - ```bash
+    scp -i ~/.ssh/tech601-matt-azure.pem ~/.ssh/tech601-matt-azure.pem adminuser@<app-public-ip>:~/.ssh
+    ```
+  - ```bash
+    ssh -i ~/.ssh/tech601-matt-azure.pem adminuser@<app-public-ip>
+    ```
 - On app server:
-  - `sudo apt update -y`
-  - `sudo apt upgrade -y`
-  - `sudo apt install unzip -y`
-  - `sudo unzip nodejs20-sparta-test-app-2025.zip `
-  - `sudo apt install nginx -y`
-  - `sudo sed -i '51c\proxy_pass http://127.0.0.1:3000;' /etc/nginx/sites-available/default`
-  - `sudo systemctl restart nginx`
-  - `sudo systemctl enable nginx`
-  - `sudo bash -c "curl -fsSL https://deb.nodesource.com/setup_20.x | bash -"`
-  - `sudo apt install nodejs -y`
-  - `cd nodejs2-sparta-test-app-2025/app`
-  - `npm install`
-  - `sudo npm install pm2 -g`
-  - `pm2 kill`
-  - `pm2 --name SpartaApp start app.js`
-  - `ssh -i ~/.ssh/tech601-matt-azure.pem adminuser@<db-private-ip>`
+  - ```bash
+    sudo apt update -y
+    ```
+  - ```bash
+    sudo apt upgrade -y
+    ```
+  - ```bash
+    sudo apt install unzip -y
+    ```
+  - ```bash
+    sudo unzip nodejs20-sparta-test-app-2025.zip
+    ```
+  - ```bash
+    sudo apt install nginx -y
+    ```
+  - ```bash
+    sudo sed -i '51c\proxy_pass http://127.0.0.1:3000;' /etc/nginx/sites-available/default
+    ```
+  - ```bash
+    sudo systemctl restart nginx
+    ```
+  - ```bash
+    sudo systemctl enable nginx
+    ```
+  - ```bash
+    sudo bash -c "curl -fsSL https://deb.nodesource.com/setup_20.x | bash -"
+    ```
+  - ```bash
+    sudo apt install nodejs -y
+    ```
+  - ```bash
+    cd nodejs2-sparta-test-app-2025/app
+    ```
+  - ```bash
+    npm install
+    ```
+  - ```bash
+    sudo npm install pm2 -g
+    ```
+  - ```bash
+    pm2 kill
+    ```
+  - ```bash
+    pm2 --name SpartaApp start app.js
+    ```
+  - ```bash
+    ssh -i ~/.ssh/tech601-matt-azure.pem adminuser@<db-private-ip>
+    ```
 - On db server:
-  - `sudo apt update -y`
-  - `sudo apt upgrade -y`
-  - `sudo apt install gnupg -y`
-  - `sudo apt install curl -y`
+  - ```bash
+    sudo apt update -y
+    ```
+  - ```bash
+    sudo apt upgrade -y
+    ```
+  - ```bash
+    sudo apt install gnupg -y
+    ```
+  - ```bash
+    sudo apt install curl -y
+    ```
   - Get GPG key
     ```bash
     curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
@@ -160,45 +207,93 @@
     ```bash
     echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
     ```
-  - `sudo apt update -y`
+  - ```bash
+    sudo apt update -y
+    ```
   - Install mongodb:
     ```bash
     sudo apt install -y mongodb-org=7.0.6 mongodb-org-database=7.0.6 mongodb-org-server=7.0.6 mongodb-mongosh=2.1.5 mongodb-org-mongos=7.0.6 mongodb-org-tools=7.0.6
     ```
-  - Check version with `mongod --version`
-  - Check status with `sudo systemctl status mongod` (not running)
-  - `cd /etc`
-  - `sudo nano mongod.conf`
-  - Change line `bindIp: 0.0.0.0`
-  - Check with `cat mongod.conf`
-  - `cd`
-  - `sudo systemctl start mongod`
-  - `sudo systemctl enable mongod`
-  - `sudo systemctl status mongod`
-  - `exit`
+  - Check version with
+    ```bash
+    mongod --version
+    ```
+  - Check status (not running)
+    ```bash
+    sudo systemctl status mongod
+    ```
+  - ```bash
+    cd /etc
+    ```
+  - ```bash
+    sudo nano mongod.conf
+    ```
+  - Change line
+    ```
+    bindIp: 0.0.0.0
+    ```
+  - Check with
+    ```bash
+    cat mongod.conf
+    ```
+  - ```bash
+    cd
+    ```
+  - ```bash
+    sudo systemctl start mongod
+    ```
+  - ```bash
+    sudo systemctl enable mongod
+    ```
+  - ```bash
+    sudo systemctl status mongod
+    ```
+  - ```bash
+    exit
+    ```
 - Back on app server:
-  - `cd`
-  - `sudo vim .bashrc`
+  - ```bash
+    cd
+    ```
+  - ```bash
+    sudo vim .bashrc
+    ```
   - Add line:
     ```
     export DB_HOST=mongodb://<db-private-ip>:27017/posts
     ```
-  - `source .bashrc`
-  - `printenv DB_HOST`
-  - `cd nodejs2-sparta-test-app-2025/app`
-  - `pm2 kill`
-  - `node seeds/seed.js`
-  - `pm2 --name SpartaApp start app.js`
+  - ```bash
+    source .bashrc
+    ```
+  - ```bash
+    printenv DB_HOST
+    ```
+  - ```bash
+    cd nodejs2-sparta-test-app-2025/app
+    ```
+  - ```bash
+    pm2 kill
+    ```
+  - ```bash
+    node seeds/seed.js
+    ```
+  - ```bash
+    pm2 --name SpartaApp start app.js
+    ```
 
 ###### Optional (for startup on restart)
 
 - On app server:
-  - `pm2 startup`
-  - (from output of command above)
+  - ```bash
+    pm2 startup
     ```
+  - (from output of command above)
+    ```bash
     sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u adminuser --hp /home/adminuser
     ```
-  - `pm2 save`
+  - ```bash
+    pm2 save
+    ```
 
 ##### Bash Scripts
 
@@ -207,21 +302,43 @@
     ```
     export DB_HOST=mongodb://<db-private-ip>:27017/posts
     ```
-  - `scp -i ~/.ssh/tech601-matt-azure.pem ~/.ssh/tech601-matt-azure.pem adminuser@<app-public-ip>:~/.ssh`
-  - `scp -i ~/.ssh/tech601-matt-azure.pem sparta-app-deploy.sh adminuser@<app-public-ip>:~`
-  - `ssh -i ~/.ssh/tech601-matt-azure.pem adminuser@<app-public-ip>`
+  - ```bash
+    scp -i ~/.ssh/tech601-matt-azure.pem ~/.ssh/tech601-matt-azure.pem adminuser@<app-public-ip>:~/.ssh
+    ```
+  - ```bash
+    scp -i ~/.ssh/tech601-matt-azure.pem sparta-app-deploy.sh adminuser@<app-public-ip>:~
+    ```
+  - ```bash
+    ssh -i ~/.ssh/tech601-matt-azure.pem adminuser@<app-public-ip>
+    ```
 - On app server:
-  - `ssh -i ~/.ssh/tech601-matt-azure.pem adminuser@<db-private-ip>`
+  - ```bash
+    ssh -i ~/.ssh/tech601-matt-azure.pem adminuser@<db-private-ip>
+    ```
 - On db server:
-  - `vim mongo-deploy.sh`
+  - ```bash
+    vim mongo-deploy.sh
+    ```
   - Paste in DB build script
-  - `chmod +x mongo-deploy.sh`
-  - `./mongo-deploy.sh`
-  - `exit`
+  - ```bash
+    chmod +x mongo-deploy.sh
+    ```
+  - ```bash
+    ./mongo-deploy.sh
+    ```
+  - ```bash
+    exit
+    ```
 - Back on app server:
-  - `chmod +x sparta-app-deploy.sh`
-  - `./sparta-app-deploy.sh`
-  - `exit`
+  - ```bash
+    chmod +x sparta-app-deploy.sh
+    ```
+  - ```bash
+    ./sparta-app-deploy.sh
+    ```
+  - ```bash
+    exit
+    ```
 
 ### User Data
 
@@ -229,7 +346,7 @@
 
 ##### DB VM
 
-- [Create virtual machine](https://portal.azure.com/#create/Microsoft.VirtualMachine)
+- Create virtual machine
 - Basics
   - Resource group: tech601
   - Virtual machine name: `tech601-matt-mongo-db-vm`
@@ -262,7 +379,7 @@
 
 ##### App VM
 
-- [Create virtual machine](https://portal.azure.com/#create/Microsoft.VirtualMachine)
+- Create virtual machine
 - Basics
   - Resource group: tech601
   - Virtual machine name: `tech601-matt-sparta-app-vm`
