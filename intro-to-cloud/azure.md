@@ -1,0 +1,281 @@
+# Azure
+
+<!-- ## Key
+
+## Virtual Network
+
+- [Create virtual network](https://portal.azure.com/#view/Microsoft_Azure_Network/VirtualNetworkCreateV3.ReactView)
+- Basics
+  - Resource group: tech601
+  - Virtual network name: `tech601-matt-2-subnet-vnet`
+  - Region: (UK) UK South
+- Security
+  - (Defaults OK)
+- IP addresses
+  - XXXCOMPLETE THISXXX
+
+## SGs -->
+
+## Virtual Machines
+
+### Manual / Bash Scripts
+
+#### Create VMs
+
+##### DB VM
+
+- [Create virtual machine](https://portal.azure.com/#create/Microsoft.VirtualMachine)
+- Basics
+  - Resource group: tech601
+  - Virtual machine name: `tech601-matt-mongo-db-vm`
+  - Region: (UK) UK South
+  - Availability zone: Zone 3
+  - Security type: Standard
+  - Image: Ubuntu Pro 22.04 LTS - x64 Gen2
+  - Size: Standard_B1s
+  - Username: `adminuser`
+  - SSH public key source: Use existing key stored in Azure
+  - Stored Keys: tech601-matt-azure
+  - Public inbound ports: None
+- Disks
+  - OS disk type: Standard SSD
+- Networking
+  - Virtual network: tech601-matt-2-subnet-vnet
+  - Subnet: private-subnet (10.0.3.0/24)
+  - Public IP: None
+  - NIC network security group: None
+  - Delete NIC when VM is deleted ☑️
+- Management
+  - (Defaults OK)
+- Monitoring
+  - Boot diagnostics: Disable
+- Advanced
+  - Custom data: (blank)
+- Tags
+  - Owner: Matt
+- Review + create, Create
+
+##### App VM
+
+- [Create virtual machine](https://portal.azure.com/#create/Microsoft.VirtualMachine)
+- Basics
+  - Resource group: tech601
+  - Virtual machine name: `tech601-matt-sparta-app-vm`
+  - Region: (UK) UK South
+  - Availability zone: Zone 2
+  - Security type: Standard
+  - Image: Ubuntu Pro 22.04 LTS - x64 Gen2
+  - Size: Standard_B1s
+  - Username: `adminuser`
+  - SSH public key source: Use existing key stored in Azure
+  - Stored Keys: tech601-matt-azure
+  - Public inbound ports: Allow selected ports
+  - Select inbound ports: HTTP (80), SSH (22)
+- Disks
+  - OS disk type: Standard SSD
+- Networking
+  - Virtual network: tech601-matt-2-subnet-vnet
+  - Subnet: public-subnet (10.0.2.0/24)
+  - Public IP: (new) tech601-matt-sparta-app-vm-ip
+  - NIC network security group: None
+  - Delete public IP and NIC when VM is deleted ☑️
+- Management
+  - (Defaults OK)
+- Monitoring
+  - Boot diagnostics: Disable
+- Advanced
+  - Custom data: (blank)
+- Tags
+  - Owner: Matt
+- Review + create, Create
+
+#### Commands
+
+##### Manual
+
+Local:
+
+- `scp -i ~/.ssh/tech601-matt-azure.pem nodejs20-sparta-test-app-2025.zip  adminuser@<app-public-ip>:~`
+- `scp -i ~/.ssh/tech601-matt-azure.pem ~/.ssh/tech601-matt-azure.pem adminuser@<app-public-ip>:~/.ssh`
+- `ssh -i ~/.ssh/tech601-matt-azure.pem adminuser@<app-public-ip>`
+
+On app server:
+
+- `sudo apt update -y`
+- `sudo apt upgrade -y`
+- `sudo apt install unzip -y`
+- `sudo unzip nodejs20-sparta-test-app-2025.zip `
+- `sudo apt install nginx -y`
+- `sudo sed -i '51c\proxy_pass http://127.0.0.1:3000;' /etc/nginx/sites-available/default`
+- `sudo systemctl restart nginx`
+- `sudo systemctl enable nginx`
+- `sudo bash -c "curl -fsSL https://deb.nodesource.com/setup_20.x | bash -"`
+- `sudo apt install nodejs -y`
+- `cd nodejs2-sparta-test-app-2025/app`
+- `npm install`
+- `sudo npm install pm2 -g`
+- `pm2 kill`
+- `pm2 --name SpartaApp start app.js`
+- `ssh -i ~/.ssh/tech601-matt-azure.pem adminuser@<db-private-ip>`
+
+On db server:
+
+- `sudo apt update -y`
+- `sudo apt upgrade -y`
+- `sudo apt install gnupg -y`
+- `sudo apt install curl -y`
+- Get GPG key
+  ```bash
+  curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
+  sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
+  --dearmor
+  ```
+- Create sources list file - configures how to install mongodb
+  ```bash
+  echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+  ```
+- `sudo apt update -y`
+- Install mongodb:
+  ```bash
+  sudo apt install -y mongodb-org=7.0.6 mongodb-org-database=7.0.6 mongodb-org-server=7.0.6 mongodb-mongosh=2.1.5 mongodb-org-mongos=7.0.6 mongodb-org-tools=7.0.6
+  ```
+- Check version with `mongod --version`
+- Check status with `sudo systemctl status mongod` (not running)
+- `cd /etc`
+- `sudo nano mongod.conf`
+- Change line `bindIp: 0.0.0.0`
+- Check with `cat mongod.conf`
+- `cd`
+- `sudo systemctl start mongod`
+- `sudo systemctl enable mongod`
+- `sudo systemctl status mongod`
+- `exit`
+
+Back on app server:
+
+- `cd`
+- `sudo vim .bashrc`
+- Add line:
+  ```
+  export DB_HOST=mongodb://<db-private-ip>:27017/posts
+  ```
+- `source .bashrc`
+- `printenv DB_HOST`
+- `cd nodejs2-sparta-test-app-2025/app`
+- `pm2 kill`
+- `node seeds/seed.js`
+- `pm2 --name SpartaApp start app.js`
+
+###### Optional (for startup on restart)
+
+- `pm2 startup`
+- (from output of command above)
+  ```
+  sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u adminuser --hp /home/adminuser
+  ```
+- `pm2 save`
+
+##### Bash Scripts
+
+Local:
+
+- Edit the following line in `sparta-app-deploy.sh` to ensure that `<db-private-ip>` matches the IP for `tech601-matt-mongo-db-vm`:
+  ```
+  export DB_HOST=mongodb://<db-private-ip>:27017/posts
+  ```
+- `scp -i ~/.ssh/tech601-matt-azure.pem ~/.ssh/tech601-matt-azure.pem adminuser@<app-public-ip>:~/.ssh`
+- `scp -i ~/.ssh/tech601-matt-azure.pem sparta-app-deploy.sh adminuser@<app-public-ip>:~`
+- `ssh -i ~/.ssh/tech601-matt-azure.pem adminuser@<app-public-ip>`
+
+On app server:
+
+- `ssh -i ~/.ssh/tech601-matt-azure.pem adminuser@<db-private-ip>`
+
+On db server:
+
+- `vim mongo-deploy.sh`
+- Paste in DB build script
+- `chmod +x mongo-deploy.sh`
+- `./mongo-deploy.sh`
+- `exit`
+
+Back on app server:
+
+- `chmod +x sparta-app-deploy.sh`
+- `./sparta-app-deploy.sh`
+- `exit`
+
+### User Data
+
+#### Create VMs
+
+##### DB VM
+
+- [Create virtual machine](https://portal.azure.com/#create/Microsoft.VirtualMachine)
+- Basics
+  - Resource group: tech601
+  - Virtual machine name: `tech601-matt-mongo-db-vm`
+  - Region: (UK) UK South
+  - Availability zone: Zone 3
+  - Security type: Standard
+  - Image: Ubuntu Pro 22.04 LTS - x64 Gen2
+  - Size: Standard_B1s
+  - Username: `adminuser`
+  - SSH public key source: Use existing key stored in Azure
+  - Stored Keys: tech601-matt-azure
+  - Public inbound ports: None
+- Disks
+  - OS disk type: Standard SSD
+- Networking
+  - Virtual network: tech601-matt-2-subnet-vnet
+  - Subnet: private-subnet (10.0.3.0/24)
+  - Public IP: None
+  - NIC network security group: None
+  - Delete NIC when VM is deleted ☑️
+- Management
+  - (Defaults OK)
+- Monitoring
+  - Boot diagnostics: Disable
+- Advanced
+  - Custom data: (paste DB build script)
+- Tags
+  - Owner: Matt
+- Review + create, Create
+
+##### App VM
+
+- [Create virtual machine](https://portal.azure.com/#create/Microsoft.VirtualMachine)
+- Basics
+  - Resource group: tech601
+  - Virtual machine name: `tech601-matt-sparta-app-vm`
+  - Region: (UK) UK South
+  - Availability zone: Zone 2
+  - Security type: Standard
+  - Image: Ubuntu Pro 22.04 LTS - x64 Gen2
+  - Size: Standard_B1s
+  - Username: `adminuser`
+  - SSH public key source: Use existing key stored in Azure
+  - Stored Keys: tech601-matt-azure
+  - Public inbound ports: Allow selected ports
+  - Select inbound ports: HTTP (80), SSH (22)
+- Disks
+  - OS disk type: Standard SSD
+- Networking
+  - Virtual network: tech601-matt-2-subnet-vnet
+  - Subnet: public-subnet (10.0.2.0/24)
+  - Public IP: (new) tech601-matt-sparta-app-vm-ip
+  - NIC network security group: None
+  - Delete public IP and NIC when VM is deleted ☑️
+- Management
+  - (Defaults OK)
+- Monitoring
+  - Boot diagnostics: Disable
+- Advanced
+  - Custom data: (paste Sparta app build script; ensure `DB_HOST` matches DB private IP)
+- Tags
+  - Owner: Matt
+- Review + create, Create
+
+<!-- Run the command: Execute sudo waagent -deprovision+user -force inside the guest OS.
+Stop the VM: Shut down the VM from the Azure portal or CLI to ensure data consistency.
+Capture the Image: Use the Azure Portal or Azure CLI to capture the deprovisioned VM.  -->
