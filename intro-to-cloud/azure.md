@@ -51,14 +51,24 @@
   - SSH public key source: Use existing key stored in Azure
   - Stored Keys: tech601-matt-azure
   - Public inbound ports: None
+
+  ![Basic 1](images/azure/mongo-vm-basic-1.png)
+  ![Basic 2](images/azure/mongo-vm-basic-2.png)
+
 - Disks
   - OS disk type: Standard SSD
+
+  ![Disk](images/azure/app-vm-disk.png)
+
 - Networking
   - Virtual network: tech601-matt-2-subnet-vnet
   - Subnet: private-subnet (10.0.3.0/24)
   - Public IP: None
   - NIC network security group: None
   - Delete NIC when VM is deleted ☑️
+
+  ![Network](images/azure/mongo-vm-network.png)
+
 - Management
   - (Defaults OK)
 - Monitoring
@@ -85,6 +95,10 @@
   - Stored Keys: tech601-matt-azure
   - Public inbound ports: Allow selected ports
   - Select inbound ports: HTTP (80), SSH (22)
+
+  ![Basic 1](images/azure/app-vm-basic-1.png)
+  ![Basic 2](images/azure/app-vm-basic-2.png)
+
 - Disks
   - OS disk type: Standard SSD
 - Networking
@@ -93,6 +107,9 @@
   - Public IP: (new) tech601-matt-sparta-app-vm-ip
   - NIC network security group: None
   - Delete public IP and NIC when VM is deleted ☑️
+
+  ![Network](images/azure/app-vm-network.png)
+
 - Management
   - (Defaults OK)
 - Monitoring
