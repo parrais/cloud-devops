@@ -298,7 +298,7 @@
 ##### Bash Scripts
 
 - Local:
-  - Edit the following line in `sparta-app-deploy.sh` to ensure that `<db-private-ip>` matches the IP for `tech601-matt-mongo-db-vm`:
+  - Edit the following line in [`sparta-app-deploy.sh`](scripts/sparta-app-deploy.sh) to ensure that `<db-private-ip>` matches the IP for `tech601-matt-mongo-db-vm`:
     ```
     export DB_HOST=mongodb://<db-private-ip>:27017/posts
     ```
@@ -319,7 +319,7 @@
   - ```bash
     vim mongo-deploy.sh
     ```
-  - Paste in DB build script
+  - Paste in [DB build script](scripts/mongo-deploy.sh)
   - ```bash
     chmod +x mongo-deploy.sh
     ```
@@ -372,7 +372,7 @@
 - Monitoring
   - Boot diagnostics: Disable
 - Advanced
-  - Custom data: (paste DB build script)
+  - Custom data: (paste [DB build script](scripts/mongo-deploy.sh))
 - Tags
   - Owner: Matt
 - Review + create, Create
@@ -406,7 +406,7 @@
 - Monitoring
   - Boot diagnostics: Disable
 - Advanced
-  - Custom data: (paste Sparta app build script; ensure `DB_HOST` matches DB private IP)
+  - Custom data: (paste [Sparta app build script](scripts/sparta-app-deploy.sh); ensure `DB_HOST` matches DB private IP)
 - Tags
   - Owner: Matt
 - Review + create, Create
