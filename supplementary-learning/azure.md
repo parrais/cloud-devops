@@ -1,6 +1,7 @@
 # Azure <!-- omit from toc -->
 
-- [Key](#key)
+- [Preface](#preface)
+- [SSH Key](#ssh-key)
 - [Virtual Network](#virtual-network)
 - [Security Groups](#security-groups)
 - [Virtual Machines](#virtual-machines)
@@ -24,7 +25,25 @@
       - [DB VM](#db-vm-3)
       - [App VM](#app-vm-3)
 
-## Key
+## Preface
+
+Documented below is the process to deploy the [Sparta Test App](https://github.com/LSF970/nodejs2-sparta-test-app-2025) on Azure, in an architecture with:
+
+- One VNet
+- Public and private subnets (with associated security groups)
+- Public VM running the Sparta App
+- Private VM running a Mongo DB
+
+Four variants are included for the VM configuration:
+
+- Built from commands run manually at a command line
+- Built with scripts executed from the command line
+- Built with scripts inserted into the Azure build process ('user data')
+- Creation of custom VM images, and VM builds from those images
+
+All changing IP addresses are obscured/generalised; asset names should be changed before/while following along.
+
+## SSH Key
 
 - Navigate to [SSH keys](https://portal.azure.com/#browse/Microsoft.Compute%2FsshPublicKeys)
 - Create
@@ -530,6 +549,8 @@
 
 ##### App VM
 
+TO BE COMPLETED
+
 #### Run Images
 
 ##### DB VM
@@ -572,6 +593,8 @@
 - Review + create, Create
 
 ##### App VM
+
+TO BE COMPLETED
 
 <!-- Run the command: Execute sudo waagent -deprovision+user -force inside the guest OS.
 Stop the VM: Shut down the VM from the Azure portal or CLI to ensure data consistency.
