@@ -513,12 +513,63 @@
 - ```
   exit
   ```
+- From the Azure portal, got to the VM
+- Stop the VM
+- Click Capture, Image
+- Basics
+  - Resource group: tech601
+  - Share image to Azure compute gallery: No, capture only a managed image.
+  - Automatically delete this virtual machine after creating the image ☑️
+  - Name: `tech601-matt-mongo-db-vm-image`
+
+  ![DB VM Image basics](images/azure/db-vm-image.png)
+
+- Tags
+  - Owner: Matt
+- Next: Review + create >, Create
 
 ##### App VM
 
 #### Run Images
 
 ##### DB VM
+
+- Create virtual machine
+- Basics
+  - Resource group: tech601
+  - Virtual machine name: `tech601-matt-mongo-db-vm`
+  - Region: (UK) UK South
+  - Availability zone: Zone 3
+  - Security type: Standard
+  - Image:
+    - See all images
+    - My Image
+    - Select 'tech601-matt-mongo-db-vm-image'
+  - Size: Standard_B1s
+  - Username: `adminuser`
+  - SSH public key source: Use existing key stored in Azure
+  - Stored Keys: tech601-matt-azure
+  - Public inbound ports: None
+
+  ![DB VM from image](images/azure/db-vm-from-image.png)
+
+- Disks
+  - OS disk type: Standard SSD
+- Networking
+  - Virtual network: tech601-matt-2-subnet-vnet
+  - Subnet: private-subnet (10.0.3.0/24)
+  - Public IP: None
+  - NIC network security group: None
+  - Delete NIC when VM is deleted ☑️
+- Management
+  - (Defaults OK)
+- Monitoring
+  - Boot diagnostics: Disable
+- Advanced
+  - (Defaults OK)
+- Tags
+  - Owner: Matt
+- Review + create, Create
 
 ##### App VM
 

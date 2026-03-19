@@ -4,3 +4,5 @@
 **/.terraform
 **/*.tfvars
 **/variables.tf
+supplementary-learning/git.md
+supplementary-learning/README.md
