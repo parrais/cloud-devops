@@ -166,6 +166,12 @@
     - a print service
     - a logging service
 
+## Permissions
+
+- `chmod` - changing access permissions of files
+- `chown` - changing the owner of files – including directories
+- `chgrp` - changing the group associated with files – including directories
+
 ## Directing and using output
 
 ### Redirection and appending
