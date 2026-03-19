@@ -46,7 +46,16 @@
   - Availability zone: Zone 3
   - Security type: Standard
   - Image: Ubuntu Pro 22.04 LTS - x64 Gen2
-    - Search under 'canonical ubuntu 22.04'
+    - See all images
+    - Search `canonical ubuntu 22.04`
+    - Select 'Ubuntu 22.04 LTS - all plans including Ubuntu Pro'
+
+      ![Ubuntu 22.04 image](images/azure/vm-ubuntu-22.png)
+
+    - Select 'Ubuntu Pro 22.04 LTS - x64 Gen2' from the list
+
+      ![Ubuntu 22.04 image list](images/azure/vm-ubuntu-pro.png)
+
   - Size: Standard_B1s
   - Username: `adminuser`
   - SSH public key source: Use existing key stored in Azure
@@ -54,6 +63,7 @@
   - Public inbound ports: None
 
   ![Basic 1](images/azure/mongo-vm-basic-1.png)
+
   ![Basic 2](images/azure/mongo-vm-basic-2.png)
 
 - Disks
@@ -98,6 +108,7 @@
   - Select inbound ports: HTTP (80), SSH (22)
 
   ![Basic 1](images/azure/app-vm-basic-1.png)
+
   ![Basic 2](images/azure/app-vm-basic-2.png)
 
 - Disks
