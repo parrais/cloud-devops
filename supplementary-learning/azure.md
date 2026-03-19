@@ -1,5 +1,8 @@
 # Azure <!-- omit from toc -->
 
+- [Key](#key)
+- [Virtual Network](#virtual-network)
+- [SGs](#sgs)
 - [Virtual Machines](#virtual-machines)
   - [Manual / Bash Scripts](#manual--bash-scripts)
     - [Create VMs](#create-vms)
@@ -14,7 +17,7 @@
       - [DB VM](#db-vm-1)
       - [App VM](#app-vm-1)
 
-<!-- ## Key
+## Key
 
 ## Virtual Network
 
@@ -26,9 +29,60 @@
 - Security
   - (Defaults OK)
 - IP addresses
-  - XXXCOMPLETE THISXXX
+  - Click lower 🗑️ icon to delete default subnet
 
-## SGs -->
+    ![Delete default subnet](images/azure/default-subnet.png)
+
+  - Add a subnet
+    - Name: `public-subnet`
+    - Starting address: `10.0.2.0`
+    - Network security group
+      - Create new
+      - `tech601-matt-public-subnet-sg`
+    - Add
+
+    ![Public subnet](images/azure/public-subnet.png)
+
+  - Add a subnet
+    - Name: `private-subnet`
+    - Starting address: `10.0.3.0`
+    - Network security group
+      - Create new
+      - `tech601-matt-private-subnet-sg`
+    - Add
+
+![Subnets](images/azure/vnet-subnets.png)
+
+- Tags
+  - Owner: Matt
+- Review + create, Create
+
+## SGs
+
+- Navigate to [Network security groups](https://portal.azure.com/#view/HubsExtension/AssetMenuBlade/~/NSGs/assetName/NetworkFoundation/extensionName/Microsoft_Azure_Network)
+- Select `tech601-matt-public-subnet-sg`
+- Click Settings: Inbound security rules
+- Add
+  - Service: SSH
+  - Priority: 100
+  - Name: AllowSSHInbound
+  - Add
+- Add
+  - Service: HTTP
+  - Priority: 110
+  - Name: AllowHTTPInbound
+  - Add
+
+  ![Public SG rules](images/azure/public-sg-rules.png)
+
+- Return to Network security groups
+- Select `tech601-matt-private-subnet-sg`
+- Click Settings: Inbound security rules
+- Add
+  - Service: SSH
+  - Priority: 100
+  - Name: AllowSSHInbound
+  - Add
 
 ## Virtual Machines
 
