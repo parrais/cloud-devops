@@ -2,9 +2,9 @@
 
 - [Key](#key)
 - [Virtual Network](#virtual-network)
-- [SGs](#sgs)
+- [Security Groups](#security-groups)
 - [Virtual Machines](#virtual-machines)
-  - [Manual / Bash Scripts](#manual--bash-scripts)
+  - [Building Manually / with Bash Scripts](#building-manually--with-bash-scripts)
     - [Create VMs](#create-vms)
       - [DB VM](#db-vm)
       - [App VM](#app-vm)
@@ -12,12 +12,29 @@
       - [Manual](#manual)
         - [Optional (for startup on restart)](#optional-for-startup-on-restart)
       - [Bash Scripts](#bash-scripts)
-  - [User Data](#user-data)
+  - [Building with User Data](#building-with-user-data)
     - [Create VMs](#create-vms-1)
       - [DB VM](#db-vm-1)
       - [App VM](#app-vm-1)
+  - [VM Images](#vm-images)
+    - [Create Images](#create-images)
+      - [DB VM](#db-vm-2)
+      - [App VM](#app-vm-2)
+    - [Run Images](#run-images)
+      - [DB VM](#db-vm-3)
+      - [App VM](#app-vm-3)
 
 ## Key
+
+- Navigate to [SSH keys](https://portal.azure.com/#browse/Microsoft.Compute%2FsshPublicKeys)
+- Create
+- Basics
+  - Resource group: tech601
+  - Key pair name: `tech601-matt-azure`
+- Tags
+  - Owner: Matt
+- Next: Review + create >, Create
+- Move downloaded `.pem` file to directory `~/.ssh/`
 
 ## Virtual Network
 
@@ -57,7 +74,7 @@
   - Owner: Matt
 - Review + create, Create
 
-## SGs
+## Security Groups
 
 - Navigate to [Network security groups](https://portal.azure.com/#view/HubsExtension/AssetMenuBlade/~/NSGs/assetName/NetworkFoundation/extensionName/Microsoft_Azure_Network)
 - Select `tech601-matt-public-subnet-sg`
@@ -86,7 +103,7 @@
 
 ## Virtual Machines
 
-### Manual / Bash Scripts
+### Building Manually / with Bash Scripts
 
 #### Create VMs
 
@@ -201,6 +218,9 @@
     ssh -i ~/.ssh/tech601-matt-azure.pem adminuser@<app-public-ip>
     ```
 - On app server:
+  - ```bash
+    chmod 400 ~/.ssh/tech601-matt-azure.pem
+    ```
   - ```bash
     sudo apt update -y
     ```
@@ -378,6 +398,9 @@
     ```
 - On app server:
   - ```bash
+    chmod 400 ~/.ssh/tech601-matt-azure.pem
+    ```
+  - ```bash
     ssh -i ~/.ssh/tech601-matt-azure.pem adminuser@<db-private-ip>
     ```
 - On db server:
@@ -405,7 +428,7 @@
     exit
     ```
 
-### User Data
+### Building with User Data
 
 #### Create VMs
 
@@ -475,6 +498,29 @@
 - Tags
   - Owner: Matt
 - Review + create, Create
+
+### VM Images
+
+#### Create Images
+
+##### DB VM
+
+- Create VM as in [user data instructions](#db-vm-1)
+- Connect to DB VM with SSH as in [bash script instructions](#bash-scripts)
+- ```
+  sudo waagent -deprovision+user -force
+  ```
+- ```
+  exit
+  ```
+
+##### App VM
+
+#### Run Images
+
+##### DB VM
+
+##### App VM
 
 <!-- Run the command: Execute sudo waagent -deprovision+user -force inside the guest OS.
 Stop the VM: Shut down the VM from the Azure portal or CLI to ensure data consistency.
