@@ -549,7 +549,29 @@ All changing IP addresses are obscured/generalised; asset names should be change
 
 ##### App VM
 
-TO BE COMPLETED
+- Create VM as in [user data instructions](#app-vm-1) but use content of [create-sparta-app-image.sh](scripts/create-sparta-app-image.sh) in Custom data field
+  - This script will only run as root, and omits any database connection/app startup commands
+- Connect to app VM with SSH as in [bash script instructions](#bash-scripts)
+- ```
+  sudo waagent -deprovision+user -force
+  ```
+- ```
+  exit
+  ```
+- From the Azure portal, got to the VM
+- Stop the VM
+- Click Capture, Image
+- Basics
+  - Resource group: tech601
+  - Share image to Azure compute gallery: No, capture only a managed image.
+  - Automatically delete this virtual machine after creating the image ☑️
+  - Name: `tech601-matt-sparta-app-vm-image`
+
+  ![App VM Image basics](images/azure/app-vm-image.png)
+
+- Tags
+  - Owner: Matt
+- Next: Review + create >, Create
 
 #### Run Images
 
@@ -564,7 +586,7 @@ TO BE COMPLETED
   - Security type: Standard
   - Image:
     - See all images
-    - My Image
+    - My Images
     - Select 'tech601-matt-mongo-db-vm-image'
   - Size: Standard_B1s
   - Username: `adminuser`
@@ -594,8 +616,37 @@ TO BE COMPLETED
 
 ##### App VM
 
-TO BE COMPLETED
-
-<!-- Run the command: Execute sudo waagent -deprovision+user -force inside the guest OS.
-Stop the VM: Shut down the VM from the Azure portal or CLI to ensure data consistency.
-Capture the Image: Use the Azure Portal or Azure CLI to capture the deprovisioned VM.  -->
+- Create virtual machine
+- Basics
+  - Resource group: tech601
+  - Virtual machine name: `tech601-matt-sparta-app-vm`
+  - Region: (UK) UK South
+  - Availability zone: Zone 2
+  - Security type: Standard
+  - Image:
+    - See all images
+    - My Images
+    - Select 'tech601-matt-sparta-app-vm-image'
+  - Size: Standard_B1s
+  - Username: `adminuser`
+  - SSH public key source: Use existing key stored in Azure
+  - Stored Keys: tech601-matt-azure
+  - Public inbound ports: Allow selected ports
+  - Select inbound ports: HTTP (80), SSH (22)
+- Disks
+  - OS disk type: Standard SSD
+- Networking
+  - Virtual network: tech601-matt-2-subnet-vnet
+  - Subnet: public-subnet (10.0.2.0/24)
+  - Public IP: (new) tech601-matt-sparta-app-vm-ip
+  - NIC network security group: None
+  - Delete public IP and NIC when VM is deleted ☑️
+- Management
+  - (Defaults OK)
+- Monitoring
+  - Boot diagnostics: Disable
+- Advanced
+  - Custom data: (paste [Sparta app build from image script](scripts/sparta-app-from-image.sh); ensure `DB_HOST` matches DB private IP)
+- Tags
+  - Owner: Matt
+- Review + create, Create
